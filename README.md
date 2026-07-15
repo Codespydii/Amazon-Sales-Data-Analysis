@@ -1,9 +1,9 @@
 # Amazon Sales Data Analysis
 
-This repository contains three related parts of the same Amazon sales analysis project:
+This repository contains three parts of the same Amazon sales project:
 
 - `python_code/` - a local Python script for data analysis and KPI reporting
-- `SQL/` - PostgreSQL scripts and documentation for database-based analysis
+- `SQL/` - MySQL scripts and documentation for database-based analysis
 - `Power BI/` - the Power BI dashboard, theme file, and dashboard assets
 
 ## Repository Layout
@@ -27,7 +27,7 @@ The SQL folder includes:
 - `sql_code.sql`
 - `amazon_sales_sql_analysis.docx`
 
-Use these scripts to create the database, load the cleaned data, and run the analysis queries.
+Use these scripts to create the database, load the cleaned data, and run the analysis queries in MySQL.
 
 ### Power BI
 The Power BI folder includes:
@@ -42,7 +42,3 @@ Open the `.pbix` file in Power BI Desktop to view the dashboard and visuals.
 
 - The dataset file itself is not included in this repository, so you may need to place the CSV in the Python and SQL folders when running locally.
 - Large files such as the Power BI workbook are included because they are part of the project deliverables.
-
-## Resume Summary
-
-You can describe this as an Amazon sales analytics project spanning Python, SQL, and Power BI, with data cleaning, KPI reporting, and dashboard development.

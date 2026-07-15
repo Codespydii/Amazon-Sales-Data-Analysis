@@ -16,13 +16,13 @@ It uses `pandas` to clean the dataset, calculate KPIs, and print summary insight
 
 ## Files
 - `app.py` - local Python analysis script
-- `Amazon Sale Report.csv` - input dataset
+- `requirements.txt` - Python dependency list
 
 ## Run Locally
 1. Open this folder in a terminal.
 2. Install the dependency:
    ```bash
-   pip install pandas
+   pip install -r requirements.txt
    ```
 3. Run the script:
    ```bash
@@ -39,7 +39,3 @@ python app.py --csv "Amazon Sale Report.csv" --state Maharashtra --state Karnata
 The script creates an `output` folder with:
 - `amazon_filtered.csv`
 - `amazon_sales_report.txt`
-
-## Resume Angle
-You can describe this as a Python data analysis project built with `pandas` for sales cleaning, aggregation, and KPI reporting.
-
