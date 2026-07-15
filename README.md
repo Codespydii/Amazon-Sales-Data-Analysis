@@ -1,45 +1,48 @@
-# Amazon Sales Data Analysis - Python Project
+# Amazon Sales Data Analysis
 
-## Overview
-This project is a local Python analysis script for Amazon sales data.
-It uses `pandas` to clean the dataset, calculate KPIs, and print summary insights from the terminal.
+This repository contains three related parts of the same Amazon sales analysis project:
 
-## Features
-- Loads Amazon sales data from a CSV file
-- Calculates total orders, total revenue, and average order value
-- Shows top SKUs, top states, fulfilment revenue, and B2B vs B2C split when available
-- Exports the filtered dataset and a text summary to an output folder
+- `python_code/` - a local Python script for data analysis and KPI reporting
+- `SQL/` - PostgreSQL scripts and documentation for database-based analysis
+- `Power BI/` - the Power BI dashboard, theme file, and dashboard assets
 
-## Tech Stack
-- Python 3.x
-- pandas
+## Repository Layout
 
-## Files
-- `app.py` - local Python analysis script
-- `Amazon Sale Report.csv` - input dataset
+### Python
+The Python project uses `pandas` to load the dataset, calculate KPIs, filter data, and export a summary report.
 
-## Run Locally
-1. Open this folder in a terminal.
-2. Install the dependency:
-   ```bash
-   pip install pandas
-   ```
-3. Run the script:
-   ```bash
-   python app.py --csv "Amazon Sale Report.csv"
-   ```
+Run it locally from `python_code/`:
 
-## Optional Filters
-Filter by state or order status:
 ```bash
-python app.py --csv "Amazon Sale Report.csv" --state Maharashtra --state Karnataka --status Delivered
+cd python_code
+pip install -r requirements.txt
+python app.py --csv "Amazon Sale Report.csv"
 ```
 
-## Output
-The script creates an `output` folder with:
-- `amazon_filtered.csv`
-- `amazon_sales_report.txt`
+### SQL
+The SQL folder includes:
 
-## Resume Angle
-You can describe this as a Python data analysis project built with `pandas` for sales cleaning, aggregation, and KPI reporting.
+- `load_dataset.sql`
+- `project_setup.sql`
+- `sql_code.sql`
+- `amazon_sales_sql_analysis.docx`
 
+Use these scripts to create the database, load the cleaned data, and run the analysis queries.
+
+### Power BI
+The Power BI folder includes:
+
+- `amazon_sales_dashboard.pbix`
+- `amazon_theme_file.json`
+- dashboard images and logo assets
+
+Open the `.pbix` file in Power BI Desktop to view the dashboard and visuals.
+
+## Notes
+
+- The dataset file itself is not included in this repository, so you may need to place the CSV in the Python and SQL folders when running locally.
+- Large files such as the Power BI workbook are included because they are part of the project deliverables.
+
+## Resume Summary
+
+You can describe this as an Amazon sales analytics project spanning Python, SQL, and Power BI, with data cleaning, KPI reporting, and dashboard development.
