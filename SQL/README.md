@@ -136,6 +136,7 @@ LIMIT 20;
 Output: top 20 city/state combinations by revenue
 
 ## Notes
-- The query style follows PostgreSQL syntax.
-- The outputs above are the sample KPI values documented in the reference analysis.
-- `sql_code.sql` contains the executable versions of these queries.
+
+- The queries are written using MySQL syntax.
+- The outputs shown above are sample KPI values generated from the Amazon Sales dataset.
+- `sql_code.sql` contains all executable MySQL queries used for the analysis.
