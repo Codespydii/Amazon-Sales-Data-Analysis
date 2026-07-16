@@ -1,55 +1,139 @@
-# Amazon Sales Data Analysis (MySQL Project)
+# Amazon Sales Data Analysis - SQL
 
-## Author
-**Codespydii**
+This folder contains the SQL scripts used to create the table, load the cleaned dataset, and run the main analysis queries for the Amazon sales project.
 
-## Project Overview
-This project focuses on analyzing Amazon sales data using MySQL.
-The goal is to uncover insights such as total revenue, orders, top products, sales trends, and more.
-
-The dataset is loaded into a MySQL database, basic data checks are performed, and SQL queries are used to generate KPIs and business insights.
-
-## Project Structure
-```text
-.
-├── amazon_sales_sql_analysis.docx   # Reference schema, KPIs & example outputs
-├── load_dataset.sql                 # Script to create table and load CSV
-├── project_setup.sql                # Alternate setup script
-├── sql_code.sql                     # SQL queries for KPIs and analysis
-```
+## Files
+- `project_setup.sql` - table schema and database setup
+- `load_dataset.sql` - data import script
+- `sql_code.sql` - KPI and analysis queries
+- `amazon_sales_sql_analysis.docx` - reference document with schema and sample outputs
 
 ## Setup
 
-### 1. Create Database
+1. Create the database.
 ```sql
 CREATE DATABASE amazon_sales_db;
-USE amazon_sales_db;
 ```
 
-### 2. Run Schema and Load Data
+2. Run the schema and load scripts.
 ```sql
-SOURCE load_dataset.sql;
+\i project_setup.sql
+\i load_dataset.sql
 ```
 
-This will:
-- Drop any existing table
-- Create a new `amazon_sales` table
-- Load data from `Amazon_Sales_Clean.csv`
-
-### 3. Verify Data
+3. Verify the table.
 ```sql
 SELECT COUNT(*) FROM amazon_sales;
 ```
 
-## Key Queries
-- Total orders
-- Total revenue
-- Average order value
-- Revenue by month
-- Top products by revenue
-- Category-wise revenue
-- B2B vs B2C split
-- Fulfilment channel performance
-- Order status distribution
-- Average items per order
-- Revenue by city
+## SQL Questions, Queries, and Outputs
+
+### 1. What is the total number of orders?
+```sql
+SELECT COUNT(*) AS total_orders
+FROM amazon_sales;
+```
+Output: `120,378` orders
+
+### 2. What is the total revenue?
+```sql
+SELECT SUM(total_revenue) AS total_revenue
+FROM amazon_sales;
+```
+Output: `76,034,406.00 INR`
+
+### 3. What is the sum of raw amount values?
+```sql
+SELECT SUM(amount) AS sum_amount
+FROM amazon_sales;
+```
+Output: `78,592,678.00 INR`
+
+### 4. What is the average order value?
+```sql
+SELECT ROUND(SUM(total_revenue) / NULLIF(COUNT(*), 0), 2) AS avg_order_value
+FROM amazon_sales;
+```
+Output: `631.63 INR`
+
+### 5. How does revenue change by month?
+```sql
+SELECT DATE_TRUNC('month', order_date) AS month,
+       TO_CHAR(DATE_TRUNC('month', order_date), 'YYYY-MM') AS month_name,
+       COUNT(*) AS orders,
+       ROUND(SUM(total_revenue), 2) AS revenue,
+       ROUND(SUM(total_revenue) / NULLIF(COUNT(*), 0), 2) AS aov
+FROM amazon_sales
+GROUP BY DATE_TRUNC('month', order_date)
+ORDER BY month;
+```
+Output: a month-wise summary table with `month`, `month_name`, `orders`, `revenue`, and `aov`
+
+### 6. Which are the top 10 products by revenue?
+```sql
+SELECT sku, asin, SUM(total_revenue) AS revenue, SUM(qty) AS total_qty
+FROM amazon_sales
+GROUP BY sku, asin
+ORDER BY revenue DESC
+LIMIT 10;
+```
+Output: top 10 SKU / ASIN combinations sorted by revenue
+
+### 7. Which categories generate the most revenue?
+```sql
+SELECT category, SUM(total_revenue) AS revenue, SUM(qty) AS total_qty
+FROM amazon_sales
+GROUP BY category
+ORDER BY revenue DESC;
+```
+Output: a category-wise revenue table ranked from highest to lowest
+
+### 8. What is the B2B vs B2C revenue split?
+```sql
+SELECT CASE WHEN b2b = TRUE THEN 'B2B' ELSE 'B2C' END AS customer_segment,
+       COUNT(*) AS orders,
+       SUM(total_revenue) AS revenue
+FROM amazon_sales
+GROUP BY customer_segment;
+```
+Output: two rows showing order count and revenue for `B2B` and `B2C`
+
+### 9. How does fulfilment channel performance compare?
+```sql
+SELECT fulfilled_by, COUNT(*) AS orders_count, SUM(total_revenue) AS revenue
+FROM amazon_sales
+GROUP BY fulfilled_by
+ORDER BY orders_count DESC;
+```
+Output: fulfilment-wise order and revenue summary
+
+### 10. What is the order status distribution?
+```sql
+SELECT status, COUNT(*) AS count_orders, SUM(total_revenue) AS revenue
+FROM amazon_sales
+GROUP BY status
+ORDER BY count_orders DESC;
+```
+Output: status-wise order count and revenue table
+
+### 11. What is the average items per order?
+```sql
+SELECT ROUND(AVG(qty), 2) AS avg_items_per_order
+FROM amazon_sales;
+```
+Output: `0.90` items per order
+
+### 12. Which cities contribute the most revenue?
+```sql
+SELECT ship_city, ship_state, SUM(total_revenue) AS revenue, SUM(qty) AS quantity
+FROM amazon_sales
+GROUP BY ship_city, ship_state
+ORDER BY revenue DESC
+LIMIT 20;
+```
+Output: top 20 city/state combinations by revenue
+
+## Notes
+- The query style follows PostgreSQL syntax.
+- The outputs above are the sample KPI values documented in the reference analysis.
+- `sql_code.sql` contains the executable versions of these queries.
