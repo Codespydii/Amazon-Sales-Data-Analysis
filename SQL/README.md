@@ -13,12 +13,15 @@ This folder contains the SQL scripts used to create the table, load the cleaned 
 1. Create the database.
 ```sql
 CREATE DATABASE amazon_sales_db;
+USE amazon_sales_db;
+
+
 ```
 
 2. Run the schema and load scripts.
 ```sql
-\i project_setup.sql
-\i load_dataset.sql
+SOURCE project_setup.sql;
+SOURCE load_dataset.sql;
 ```
 
 3. Verify the table.
@@ -58,13 +61,12 @@ Output: `631.63 INR`
 
 ### 5. How does revenue change by month?
 ```sql
-SELECT DATE_TRUNC('month', order_date) AS month,
-       TO_CHAR(DATE_TRUNC('month', order_date), 'YYYY-MM') AS month_name,
+SELECT DATE_FORMAT(order_date, '%Y-%m') AS month,
        COUNT(*) AS orders,
        ROUND(SUM(total_revenue), 2) AS revenue,
-       ROUND(SUM(total_revenue) / NULLIF(COUNT(*), 0), 2) AS aov
+       ROUND(AVG(total_revenue), 2) AS aov
 FROM amazon_sales
-GROUP BY DATE_TRUNC('month', order_date)
+GROUP BY DATE_FORMAT(order_date, '%Y-%m')
 ORDER BY month;
 ```
 Output: a month-wise summary table with `month`, `month_name`, `orders`, `revenue`, and `aov`
